@@ -11,12 +11,13 @@
       LWIMW!
     </h1>
 
-    <svg viewbox='20 0 2020 2000'>
+    <svg viewbox='0 0 100 100'>
       <sound
-        v-for='(initialFrequency, index) in initialFrequencies'
+        v-for='(sound, soundIndex) in sounds'
+        v-bind:absolute-frequency='sound.absoluteFrequency'
         v-bind:audio-context='audioContext'
-        v-bind:initial-frequency='initialFrequency'
-        v-bind:key='index'
+        v-bind:key='soundIndex'
+        v-bind:position='sound.position'
       >
       </sound>
     </svg>

@@ -2,52 +2,78 @@
 var Sound = {
   render: function (createElement) {
     return createElement(
-      'circle',
+      'g',
       {
-        attrs: {
-          cx: this.frequency,
-          cy: 1000,
-          fill: this.isHovered ? 'black' : 'none',
-          stroke: 'black',
-          'stroke-width': 5,
-          r: 50
-        },
         on: {
           mouseenter: this.handleMouseEnter,
           mouseleave: this.handleMouseLeave,
-          mousemove: this.handleMouseMove,
           mouseover: this.handleMouseOver
         }
-      }
+      },
+      [
+        createElement(
+          'circle',
+          {
+            attrs: {
+              cx: this.position.x,
+              cy: this.position.y,
+              fill: this.isHovered ? 'black' : 'none',
+              stroke: 'black',
+              'stroke-width': 1,
+              r: 8
+            }
+          }
+        ),
+        createElement(
+          'text',
+          {
+            attrs: {
+              dy: '1px',
+              'font-size': '3px',
+              fill: this.isHovered ? 'white' : 'black',
+              x: this.position.x,
+              y: this.position.y,
+              'text-anchor': 'middle'
+            }
+          },
+          [
+            this.relativeFrequency + ' Hz'
+          ]
+        )
+      ]
     )
   },
   props: {
+    absoluteFrequency: {
+      required: true,
+      type: Number
+    },
     audioContext: {
       required: true,
       type: AudioContext
     },
-    initialFrequency: {
+    position: {
       required: true,
-      type: Number
+      type: Object
     }
   },
   data: function () {
     return {
-      frequency: this.initialFrequency,
       isHovered: false,
-      oscillatorNode: this.audioContext.createOscillator()
+      oscillatorNode: this.audioContext.createOscillator(),
+      relativeFrequency: this.absoluteFrequency
     }
   },
   watch: {
-    frequency: function (newValue) {
-      this.oscillatorNode.frequency.value = newValue
-    },
     isHovered: function (newValue) {
       if (newValue) {
         this.oscillatorNode.connect(this.audioContext.destination)
       } else {
         this.oscillatorNode.disconnect(this.audioContext.destination)
       }
+    },
+    relativeFrequency: function (newValue) {
+      this.oscillatorNode.frequency.value = newValue
     }
   },
   methods: {
@@ -62,7 +88,7 @@ var Sound = {
     }
   },
   mounted: function () {
-    this.oscillatorNode.frequency.value = this.frequency
+    this.oscillatorNode.frequency.value = this.relativeFrequency
     this.oscillatorNode.start()
   }
 }
