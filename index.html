@@ -18,9 +18,14 @@
         v-bind:audio-context='audioContext'
         v-bind:key='soundIndex'
         v-bind:position='sound.position'
+        v-bind:you-hearing-radius='you.hearingRadius'
+        v-bind:you-position='you.position'
       >
       </sound>
-      <you>
+      <you
+        v-bind:hearing-radius='you.hearingRadius'
+        v-bind:position.sync='you.position'
+      >
     </svg>
 
   </div>

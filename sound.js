@@ -17,7 +17,7 @@ var Sound = {
             attrs: {
               cx: this.position.x,
               cy: this.position.y,
-              fill: this.isHovered ? 'black' : 'none',
+              fill: this.color,
               stroke: 'black',
               'stroke-width': 0.3,
               r: 8
@@ -30,7 +30,7 @@ var Sound = {
             attrs: {
               dy: '1px',
               'font-size': '3px',
-              fill: this.isHovered ? 'white' : 'black',
+              fill: this.textColor,
               x: this.position.x,
               y: this.position.y,
               'text-anchor': 'middle'
@@ -55,25 +55,61 @@ var Sound = {
     position: {
       required: true,
       type: Object
+    },
+    youHearingRadius: {
+      required: true,
+      type: Number
+    },
+    youPosition: {
+      required: true,
+      type: Object
     }
   },
   data: function () {
     return {
-      isHovered: false,
+      gainNode: this.audioContext.createGain(),
+      maxVolumePercent: 10,
       oscillatorNode: this.audioContext.createOscillator(),
-      relativeFrequency: this.absoluteFrequency
+      relativeFrequency: this.absoluteFrequency,
+      volumePercent: 0
+    }
+  },
+  computed: {
+    color: function () {
+      return 'rgba(0, 0, 0, ' + this.volumePercent / this.maxVolumePercent + ')'
+    },
+    textColor: function () {
+      if (this.volumePercent > this.maxVolumePercent / 2) {
+        return '#bbb'
+      } else {
+        return 'black'
+      }
     }
   },
   watch: {
     isHovered: function (newValue) {
       if (newValue) {
-        this.oscillatorNode.connect(this.audioContext.destination)
       } else {
-        this.oscillatorNode.disconnect(this.audioContext.destination)
+        this.gainNode.disconnect(this.audioContext.destination)
       }
     },
     relativeFrequency: function (newValue) {
       this.oscillatorNode.frequency.value = newValue
+    },
+    volumePercent: function (newValue) {
+      this.gainNode.gain.value = this.volumePercent / 100
+    },
+    youPosition: function (newValue) {
+      var distanceToYou = Math.sqrt(
+        Math.pow(this.position.x - this.youPosition.x, 2) +
+        Math.pow(this.position.y - this.youPosition.y, 2)
+      )
+      this.volumePercent = Math.max(
+        0,
+        this.maxVolumePercent * (
+          1 - Math.sqrt(distanceToYou / this.youHearingRadius)
+        )
+      )
     }
   },
   methods: {
@@ -88,7 +124,10 @@ var Sound = {
     }
   },
   mounted: function () {
+    this.gainNode.gain.value = 0
+    this.gainNode.connect(this.audioContext.destination)
     this.oscillatorNode.frequency.value = this.relativeFrequency
+    this.oscillatorNode.connect(this.gainNode)
     this.oscillatorNode.start()
   }
 }

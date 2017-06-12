@@ -2,29 +2,57 @@
 var You = {
   render: function (createElement) {
     return createElement(
-      'image',
-      {
-        attrs: {
-          height: this.height,
-          width: this.width,
-          x: this.x - this.width / 2,
-          'xlink:href': 'you.svg',
-          y: this.y - this.height / 2
-        },
-        on: {
-          mousedown: this.handleMouseDown,
-          mousemove: this.handleMouseMove,
-          mouseup: this.handleMouseUp
-        },
-        style: {
-          cursor: (
-            this.isMoving
-            ? ['-moz-grabbing', '-webkit-grabbing', 'grabbing']
-            : ['-moz-grab', '-webkit-grab', 'grab']
-          )
-        }
-      }
+      'g',
+      [
+        createElement(
+          'circle',
+          {
+            attrs: {
+              cx: this.x,
+              cy: this.y,
+              fill: 'none',
+              stroke: 'black',
+              'stroke-width': 0.3,
+              r: this.hearingRadius - 8
+            }
+          }
+        ),
+        createElement(
+          'image',
+          {
+            attrs: {
+              height: this.height,
+              width: this.width,
+              x: this.x - this.width / 2,
+              'xlink:href': 'you.svg',
+              y: this.y - this.height / 2
+            },
+            on: {
+              mousedown: this.handleMouseDown,
+              mousemove: this.handleMouseMove,
+              mouseup: this.handleMouseUp
+            },
+            style: {
+              cursor: (
+                this.isMoving
+                ? ['-moz-grabbing', '-webkit-grabbing', 'grabbing']
+                : ['-moz-grab', '-webkit-grab', 'grab']
+              )
+            }
+          }
+        )
+      ]
     )
+  },
+  props: {
+    hearingRadius: {
+      required: true,
+      type: Number
+    },
+    position: {
+      required: true,
+      type: Object
+    }
   },
   data: function () {
     return {
@@ -33,8 +61,22 @@ var You = {
       lastClientX: 0,
       lastClientY: 0,
       width: 20,
-      x: 50,
-      y: 50
+      x: this.position.x,
+      y: this.position.y
+    }
+  },
+  watch: {
+    x: function () {
+      this.$emit('update:position', {
+        x: this.x,
+        y: this.y
+      })
+    },
+    y: function () {
+      this.$emit('update:position', {
+        x: this.x,
+        y: this.y
+      })
     }
   },
   methods: {

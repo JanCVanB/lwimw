@@ -6,76 +6,97 @@ var vm = new Vue({
       audioContext: new AudioContext(),
       sounds: [
         {
-          absoluteFrequency: 20,
+          absoluteFrequency: 40,
           position: {
             x: 20,
             y: 20
           }
         },
         {
-          absoluteFrequency: 50,
+          absoluteFrequency: 80,
           position: {
             x: 40,
             y: 20
           }
         },
         {
-          absoluteFrequency: 100,
+          absoluteFrequency: 160,
           position: {
             x: 60,
             y: 20
           }
         },
         {
-          absoluteFrequency: 200,
+          absoluteFrequency: 320,
           position: {
             x: 80,
             y: 20
           }
         },
         {
-          absoluteFrequency: 500,
+          absoluteFrequency: 48,
           position: {
             x: 80,
             y: 40
           }
         },
         {
-          absoluteFrequency: 1000,
+          absoluteFrequency: 96,
           position: {
             x: 80,
             y: 60
           }
         },
         {
-          absoluteFrequency: 2000,
+          absoluteFrequency: 192,
           position: {
             x: 80,
             y: 80
           }
         },
         {
-          absoluteFrequency: 5000,
+          absoluteFrequency: 384,
           position: {
             x: 60,
             y: 80
           }
         },
         {
-          absoluteFrequency: 10000,
+          absoluteFrequency: 60,
           position: {
             x: 40,
             y: 80
           }
         },
         {
-          absoluteFrequency: 20000,
+          absoluteFrequency: 120,
           position: {
             x: 20,
             y: 80
           }
+        },
+        {
+          absoluteFrequency: 240,
+          position: {
+            x: 20,
+            y: 60
+          }
+        },
+        {
+          absoluteFrequency: 480,
+          position: {
+            x: 20,
+            y: 40
+          }
         }
-      ]
+      ],
+      you: {
+        hearingRadius: 30,
+        position: {
+          x: 50,
+          y: 50
+        }
+      }
     }
   },
   components: {
