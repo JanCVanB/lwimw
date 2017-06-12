@@ -1,3 +1,10 @@
+var gcd = function (a, b) {
+  if (!b) {
+    return a
+  }
+  return gcd(b, a % b)
+}
+
 // eslint-disable-next-line no-new, no-unused-vars
 var Sound = {
   render: function (createElement) {
@@ -76,14 +83,31 @@ var Sound = {
   },
   computed: {
     color: function () {
-      return 'rgba(0, 0, 0, ' + this.volumePercent / this.maxVolumePercent + ')'
+      return (
+        'hsla(' +
+        this.colorHue + ', ' +
+        this.colorSaturation + '%, ' +
+        this.colorLightness + '%, ' +
+        this.colorAlpha +
+        ')'
+      )
+    },
+    colorAlpha: function () {
+      return Math.sqrt(this.volumePercent / this.maxVolumePercent)
+    },
+    colorHue: function () {
+      var hue = 290 - 10 * this.relativeFrequency / gcd(this.relativeFrequency, Math.pow(2, 20))
+      console.log(this.relativeFrequency, 'makes hue', hue)
+      return hue
+    },
+    colorLightness: function () {
+      return 40
+    },
+    colorSaturation: function () {
+      return 100
     },
     textColor: function () {
-      if (this.volumePercent > this.maxVolumePercent / 2) {
-        return '#bbb'
-      } else {
-        return 'black'
-      }
+      return 'black'
     }
   },
   watch: {
