@@ -2,7 +2,8 @@
     "extends": "standard",
     "globals": {
         "_": false,
-        "CONSTANTS": false
+        "CONSTANTS": false,
+        "Vue": false
     },
     "plugins": [
         "html",
