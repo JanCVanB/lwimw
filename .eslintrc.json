@@ -1,0 +1,12 @@
+{
+    "extends": "standard",
+    "globals": {
+        "_": false,
+        "CONSTANTS": false
+    },
+    "plugins": [
+        "html",
+        "standard",
+        "promise"
+    ]
+}
