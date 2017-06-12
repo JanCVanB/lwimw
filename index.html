@@ -11,12 +11,20 @@
       LWIMW!
     </h1>
 
-    <svg>
+    <svg viewbox='20 0 2020 2000'>
+      <sound
+        v-for='(initialFrequency, index) in initialFrequencies'
+        v-bind:audio-context='audioContext'
+        v-bind:initial-frequency='initialFrequency'
+        v-bind:key='index'
+      >
+      </sound>
     </svg>
 
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="sound.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

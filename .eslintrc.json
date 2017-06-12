@@ -2,7 +2,9 @@
     "extends": "standard",
     "globals": {
         "_": false,
+        "AudioContext": false,
         "CONSTANTS": false,
+        "Sound": false,
         "Vue": false
     },
     "plugins": [
