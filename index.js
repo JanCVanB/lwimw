@@ -79,6 +79,7 @@ var vm = new Vue({
     }
   },
   components: {
-    sound: Sound
+    sound: Sound,
+    you: You
   }
 })

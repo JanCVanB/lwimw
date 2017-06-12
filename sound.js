@@ -19,7 +19,7 @@ var Sound = {
               cy: this.position.y,
               fill: this.isHovered ? 'black' : 'none',
               stroke: 'black',
-              'stroke-width': 1,
+              'stroke-width': 0.3,
               r: 8
             }
           }

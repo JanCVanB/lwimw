@@ -4,8 +4,9 @@
         "_": false,
         "AudioContext": false,
         "CONSTANTS": false,
-        "Sound": false,
-        "Vue": false
+        "Sound": true,
+        "Vue": false,
+        "You": true
     },
     "plugins": [
         "html",
